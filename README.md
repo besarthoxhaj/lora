@@ -26,6 +26,15 @@ $ python3 -m pip install --user pipx
 $ python3 -m pipx run nvitop
 ```
 
+## Conda
+
+```sh
+$ conda create --name lora
+$ conda env list
+$ conda activate lora
+$ conda env export --from-history > environment.yml
+```
+
 ## Dev
 
 ```sh

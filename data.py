@@ -1,4 +1,4 @@
-from torch.utils.data import Dataset
+from torch.utils.data import Dataset, DataLoader
 import transformers as t
 import datasets as d
 
@@ -10,49 +10,25 @@ TEMPLATE_NOT_INPUT = "Below is an instruction that describes a task. Write a res
 class TrainData(Dataset):
   def __init__(self):
     self.tokenizer = t.LlamaTokenizer.from_pretrained("decapoda-research/llama-7b-hf")
-    self.tokenizer.pad_token_id = (0)
+    self.tokenizer.pad_token_id = 0
     self.tokenizer.padding_side = "left"
     self.ds = d.load_dataset("yahma/alpaca-cleaned")
     self.ds = self.ds["train"].select(range(3))
-    self.ds = self.ds.map(self.prompt)
+    self.ds = self.ds.map(self.prompt, remove_columns=["instruction", "input", "output"], load_from_cache_file=False)
+    self.ds = self.ds.map(self.tokenize, remove_columns=["prompt"], load_from_cache_file=False)
 
   def __getitem__(self, idx):
-
-    elms = self.ds[idx]
-    print("elms", elms)
-    # pmps = elms.map(self.prompt)
-
-    print(f"__getitem__:{idx}", flush=True)
-    item = {"foo": "bar"}
-    return item
+    return self.ds[idx]
 
   def prompt(self, elm):
+    TEMPLATE = TEMPLATE_NOT_INPUT if not elm["input"] else TEMPLATE_YES_INPUT
+    prompt = TEMPLATE.format(instruction=elm["instruction"], input=elm["input"])
+    prompt = prompt + elm["output"]
+    return {"prompt": prompt}
 
-    if not elm["input"]:
-      prompt = TEMPLATE_NOT_INPUT.format(instruction=elm["instruction"])
-    else:
-      prompt = TEMPLATE_YES_INPUT.format(instruction=elm["instruction"], input=elm["input"])
-
-    return prompt + elm["output"]
-
-  def tokenize(prompt, add_eos_token=True):
-      # there's probably a way to do this with the tokenizer settings
-      # but again, gotta move fast
-      result = tokenizer(
-          prompt,
-          truncation=True,
-          max_length=cutoff_len,
-          padding=False,
-          return_tensors=None,
-      )
-      if (
-          result["input_ids"][-1] != tokenizer.eos_token_id
-          and len(result["input_ids"]) < cutoff_len
-          and add_eos_token
-      ):
-          result["input_ids"].append(tokenizer.eos_token_id)
-          result["attention_mask"].append(1)
-
-      result["labels"] = result["input_ids"].copy()
-
-      return result
+  def tokenize(self, elm):
+    res = self.tokenizer(elm["prompt"])
+    res["input_ids"].append(self.tokenizer.eos_token_id)
+    res["attention_mask"].append(1)
+    res["labels"] = res["input_ids"].copy()
+    return res
