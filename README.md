@@ -22,33 +22,28 @@ $ conda config --set auto_activate_base false
 
 
 ```sh
-# Set up a conda environment
+# conda environment
 $ conda create --name lora python=3.8
 $ conda env list
 $ conda activate lora
 $ conda list
-# Install dependencies
-$ pip install wheel
+# dependencies
+$ conda install cudatoolkit=11.0
 $ pip install ipywidgets
 $ pip install torch
 $ pip install transformers
 $ pip install sentencepiece
 $ pip install datasets
-# Those are required to run 8bit training
+# required to run 8bit training
 $ pip install accelerate
 $ pip install bitsandbytes
 $ pip install peft
 $ pip install scipy
+# utils
+$ pip install pipx
+$ pipx run nvitop
 ```
 
-
-```sh
-# Check GPU usage
-$ sudo apt update
-$ sudo apt install python3-pip
-$ python3 -m pip install --user pipx
-$ python3 -m pipx run nvitop
-```
 
 ## Dev
 
