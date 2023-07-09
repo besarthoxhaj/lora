@@ -10,15 +10,15 @@ m = model.get_model()
 ds = data.TrainDataset()
 
 
-adapters_weights = torch.load("./output/checkpoint-800/adapter_model.bin")
-p.set_peft_model_state_dict(m, adapters_weights)
+# adapters_weights = torch.load("./output/checkpoint-800/adapter_model.bin")
+# p.set_peft_model_state_dict(m, adapters_weights)
 
 
 trainer = t.Trainer(
   model=m,
   train_dataset=ds,
   args=t.TrainingArguments(
-    per_device_train_batch_size=32,
+    per_device_train_batch_size=16,
     num_train_epochs=1,
     learning_rate=3e-4,
     fp16=True,
