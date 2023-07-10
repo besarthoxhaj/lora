@@ -8,7 +8,7 @@
 $ chmod 700 ~/.ssh/id_ed25519
 $ chmod 700 ~/.ssh/id_ed25519.pub
 $ git clone git@github.com:besarthoxhaj/lora.git
-$ git clone 
+$ git clone https://github.com/tloen/alpaca-lora.git
 $ git config --global user.email "besartshyti@gmail.com"
 $ git config --global user.name "bes - fluidstack"
 ```
