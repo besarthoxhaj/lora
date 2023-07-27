@@ -3,7 +3,11 @@
 
 ## Setup
 
+
 ```sh
+# download the private key provided by Bes
+$ chmod 600 ~/path/private/key
+$ ssh -i ~/path/private/key <user>@<ip>
 $ git clone https://github.com/besarthoxhaj/lora.git
 ```
 
