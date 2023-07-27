@@ -3,6 +3,10 @@
 
 ## Setup
 
+```sh
+$ git clone https://github.com/besarthoxhaj/lora.git
+```
+
 
 ```sh
 $ wget -P ~/ https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
