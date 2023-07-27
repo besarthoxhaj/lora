@@ -5,16 +5,6 @@
 
 
 ```sh
-$ chmod 700 ~/.ssh/id_ed25519
-$ chmod 700 ~/.ssh/id_ed25519.pub
-$ git clone git@github.com:besarthoxhaj/lora.git
-$ git clone https://github.com/tloen/alpaca-lora.git
-$ git config --global user.email "besartshyti@gmail.com"
-$ git config --global user.name "bes - fluidstack"
-```
-
-
-```sh
 $ wget -P ~/ https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
 $ chmod +x ~/Miniconda3-latest-Linux-x86_64.sh
 $ ~/Miniconda3-latest-Linux-x86_64.sh -b
