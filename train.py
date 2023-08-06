@@ -1,5 +1,5 @@
-import transformers as t
-import peft as p
+import transformers
+import peft
 import model
 import data
 import os
@@ -8,19 +8,19 @@ import os
 is_ddp = int(os.environ.get("WORLD_SIZE", 1)) != 1
 m = model.get_model()
 ds = data.TrainDataset()
-collator = t.DataCollatorForSeq2Seq(ds.tokenizer, pad_to_multiple_of=8, return_tensors="pt", padding=True)
+collator = transformers.DataCollatorForSeq2Seq(ds.tokenizer, pad_to_multiple_of=8, return_tensors="pt", padding=True)
 
 
 # import torch
 # adapters_weights = torch.load("./output/checkpoint-800/adapter_model.bin")
-# p.set_peft_model_state_dict(m, adapters_weights)
+# peft.set_peft_model_state_dict(m, adapters_weights)
 
 
-trainer = t.Trainer(
+trainer = transformers.Trainer(
   model=m,
   train_dataset=ds,
   data_collator=collator,
-  args=t.TrainingArguments(
+  args=transformers.TrainingArguments(
     per_device_train_batch_size=4,
     num_train_epochs=1,
     learning_rate=3e-4,
@@ -40,4 +40,4 @@ trainer = t.Trainer(
 
 m.config.use_cache = False
 trainer.train()
-m.save_pretrained("./bessy")
+m.save_pretrained("./weights")

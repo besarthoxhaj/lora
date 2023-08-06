@@ -42,7 +42,8 @@ $ pip install accelerate
 $ pip install bitsandbytes
 $ pip install peft
 $ pip install scipy
-# utils
+# utils & server
+$ pip install gradio
 $ pip install pipx
 $ pipx run nvitop
 ```

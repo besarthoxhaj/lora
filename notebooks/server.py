@@ -1,4 +1,4 @@
-import transformers as t
+import transformers
 import gradio as gr
 import peft as p
 import torch
@@ -7,19 +7,19 @@ import time
 
 TEMP = "Below is an instruction that describes a task, paired with an input that provides further context. Write a response that appropriately completes the request.\n\n### Instruction:\n{instruction}\n\n### Response:\n"
 # NAME = "decapoda-research/llama-7b-hf"
-# m = t.LlamaForCausalLM.from_pretrained(NAME, load_in_8bit=True, torch_dtype=torch.float16)
+# m = transformers.LlamaForCausalLM.from_pretrained(NAME, load_in_8bit=True, torch_dtype=torch.float16)
 # config = p.LoraConfig(r=8, lora_alpha=16, target_modules=["q_proj", "v_proj"], lora_dropout=0.005, bias="none", task_type="CAUSAL_LM")
 # m = p.get_peft_model(m, config)
-# tokenizer = t.LlamaTokenizer.from_pretrained(NAME)
+# tokenizer = transformers.LlamaTokenizer.from_pretrained(NAME)
 # tokenizer.pad_token_id = 0
 # adapters_weights = torch.load("./bessy/adapter_model.bin")
 # p.set_peft_model_state_dict(m, adapters_weights)
 
 
-g = t.AutoModelForCausalLM.from_pretrained('gpt2-xl').to("cuda:0")
-g = torch.compile(g)
-s = t.AutoTokenizer.from_pretrained('gpt2-xl')
+s = transformers.AutoTokenizer.from_pretrained("gpt2-xl")
+g = transformers.AutoModelForCausalLM.from_pretrained("gpt2-xl").to("cuda:0")
 s.pad_token_id = 0
+g = torch.compile(g)
 
 
 # def generate(txt_prompt):
