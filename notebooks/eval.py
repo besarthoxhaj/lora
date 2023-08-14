@@ -24,6 +24,10 @@ def generate(m, prompt):
   return tokenizer.decode(batch["input_ids"].squeeze().tolist())
 # %%
 m = transformers.LlamaForCausalLM.from_pretrained("decapoda-research/llama-7b-hf", load_in_8bit=True, torch_dtype=torch.float16)
+config = peft.LoraConfig(r=8, lora_alpha=16, target_modules=["q_proj", "v_proj"], lora_dropout=0.005, bias="none", task_type="CAUSAL_LM")
+m = peft.get_peft_model(m, config)
+adapters_weights = torch.load("/home/fsuser/lora/weights/adapter_model.bin")
+peft.set_peft_model_state_dict(m, adapters_weights)
 #%%
 TEMPLATE = "Below is an instruction that describes a task, paired with an input that provides further context. Write a response that appropriately completes the request.\n\n### Instruction:\n{instruction}\n\n### Response:\n"
 prompt = TEMPLATE.format(instruction="Python how to insert something at the beginning of a list?")
@@ -32,5 +36,4 @@ output = generate(m, prompt)
 end = time.time()
 print("Time taken: ", end - start)
 print("Output:", output)
-
 # %%
