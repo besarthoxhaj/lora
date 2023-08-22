@@ -1,5 +1,4 @@
 import transformers
-import peft
 import model
 import data
 import os
@@ -12,6 +11,7 @@ collator = transformers.DataCollatorForSeq2Seq(ds.tokenizer, pad_to_multiple_of=
 
 
 # import torch
+# import peft
 # adapters_weights = torch.load("./output/checkpoint-800/adapter_model.bin")
 # peft.set_peft_model_state_dict(m, adapters_weights)
 

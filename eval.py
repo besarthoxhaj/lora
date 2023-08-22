@@ -1,10 +1,10 @@
 #%%
-import transformers
+import transformers as t
 import torch
 import peft
 import time
 #%%
-tokenizer = transformers.LlamaTokenizer.from_pretrained("decapoda-research/llama-7b-hf")
+tokenizer = t.AutoTokenizer.from_pretrained("NousResearch/Llama-2-7b-hf")
 tokenizer.pad_token_id = 0
 #%%
 def generate(m, prompt):
@@ -17,13 +17,13 @@ def generate(m, prompt):
 
   with torch.no_grad():
     for _ in range(100):
-        token = torch.argmax(m(**batch).logits[:, -1, :], dim=-1)
-        if token[0].item() == tokenizer.eos_token_id: break
-        batch["input_ids"] = torch.cat([batch["input_ids"], token.unsqueeze(1)], dim=-1)
-        batch["attention_mask"] = torch.cat([batch["attention_mask"], torch.ones_like(token).unsqueeze(1)], dim=-1)
+      token = torch.argmax(m(**batch).logits[:, -1, :], dim=-1)
+      if token[0].item() == tokenizer.eos_token_id: break
+      batch["input_ids"] = torch.cat([batch["input_ids"], token.unsqueeze(1)], dim=-1)
+      batch["attention_mask"] = torch.cat([batch["attention_mask"], torch.ones_like(token).unsqueeze(1)], dim=-1)
   return tokenizer.decode(batch["input_ids"].squeeze().tolist())
-# %%
-m = transformers.LlamaForCausalLM.from_pretrained("decapoda-research/llama-7b-hf", load_in_8bit=True, torch_dtype=torch.float16)
+#%%
+m = t.AutoModelForCausalLM.from_pretrained("NousResearch/Llama-2-7b-hf", load_in_8bit=True, torch_dtype=torch.float16)
 config = peft.LoraConfig(r=8, lora_alpha=16, target_modules=["q_proj", "v_proj"], lora_dropout=0.005, bias="none", task_type="CAUSAL_LM")
 m = peft.get_peft_model(m, config)
 adapters_weights = torch.load("/home/fsuser/lora/weights/adapter_model.bin")
