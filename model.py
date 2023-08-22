@@ -5,7 +5,7 @@ import os
 
 
 def get_model():
-  NAME = "decapoda-research/llama-7b-hf"
+  NAME = "NousResearch/Llama-2-7b-hf"
   is_ddp = int(os.environ.get("WORLD_SIZE", 1)) != 1
   device_map = {"": int(os.environ.get("LOCAL_RANK") or 0)} if is_ddp else None
   m = transformers.LlamaForCausalLM.from_pretrained(NAME, load_in_8bit=True, torch_dtype=torch.float16, device_map=device_map)

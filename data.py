@@ -9,7 +9,7 @@ TEMPLATE_NOT_INPUT = "Below is an instruction that describes a task. Write a res
 
 class TrainDataset(Dataset):
   def __init__(self):
-    self.tokenizer = t.LlamaTokenizer.from_pretrained("decapoda-research/llama-7b-hf")
+    self.tokenizer = t.AutoTokenizer.from_pretrained("NousResearch/Llama-2-7b-hf")
     self.tokenizer.pad_token_id = 0
     self.tokenizer.padding_side = "left"
     self.ds = d.load_dataset("yahma/alpaca-cleaned")
