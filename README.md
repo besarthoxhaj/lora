@@ -35,6 +35,8 @@ $ pipx run nvitop
 ## Train
 
 ```sh
+# run on a single GPU
 $ python train.py
-$ WORLD_SIZE=2 CUDA_VISIBLE_DEVICES=0,1 torchrun --nproc_per_node=2 --master_port=1234 train.py
+# run on a node with 8 GPUs
+$ WORLD_SIZE=8 CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 torchrun --nproc_per_node=8 --master_port=1234 train.py
 ```
