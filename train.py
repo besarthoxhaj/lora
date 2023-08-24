@@ -15,6 +15,24 @@ collator = transformers.DataCollatorForSeq2Seq(ds.tokenizer, pad_to_multiple_of=
 # adapters_weights = torch.load("./output/checkpoint-800/adapter_model.bin")
 # peft.set_peft_model_state_dict(m, adapters_weights)
 
+title = str(input("Title: "))
+
+num_train_epochs = 1
+learning_rate = 3e-4
+optim="adamw_torch"
+batch_size = 4
+
+wandb.init(
+  project="Llama",
+  name= title,
+  config={
+    "epochs": num_train_epochs,
+    "learning_rate": learning_rate,
+    "optim": optim,
+    "batch_size": batch_size,
+  }
+)
+
 
 trainer = transformers.Trainer(
   model=m,
@@ -33,6 +51,7 @@ trainer = transformers.Trainer(
     save_steps=200,
     output_dir="./output",
     save_total_limit=3,
+    report_to="wandb",
     ddp_find_unused_parameters=False if is_ddp else None,
   ),
 )
