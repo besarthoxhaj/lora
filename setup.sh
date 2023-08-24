@@ -13,6 +13,7 @@ pip install torch
 pip install transformers
 pip install sentencepiece
 pip install datasets
+pip install wandb
 
 pip install accelerate
 pip install bitsandbytes
