@@ -23,10 +23,12 @@ BOSTON—After living in residence halls during his first three semesters at the
 INSTRUCTION = "Article About Return Of Burger King Chicken Fries Only News Area Man Has Clicked On Today"
 prompt = TEMPLATE.format(instruction=INSTRUCTION)
 
+title = str(input("title: "))
+
 # %% 
 wandb.init(
     project="Llama",
-    title = "Llama-in-context test1",
+    name = title,
     config={
         "TEMPLATE": TEMPLATE,
         "INSTRUCTION": INSTRUCTION,
