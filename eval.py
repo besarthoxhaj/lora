@@ -29,12 +29,12 @@ wandb.init(
     config={
     })
 #%%
-table = wandb.Table(columns=["Title"], data=[["Generated Article"]])
+table = wandb.Table(columns=["Title", "Generated Article"])
 
 pipe = t.pipeline(task="text-generation", model=model, tokenizer=tokenizer, max_length=500)
 output = pipe([prompt])
 print("pipe(prompt)", output)
-generated_article = output[0]["generated_text"]
+generated_article = output[0][0]["generated_text"]
 table.add_data(INSTRUCTION, generated_article)
 wandb.log({"Generated Article": table})
 wandb.finish()
