@@ -9,7 +9,8 @@ model = t.AutoModelForCausalLM.from_pretrained("NousResearch/Llama-2-7b-hf", loa
 tokenizer.pad_token_id = 0
 #%%
 config = peft.LoraConfig(r=8, lora_alpha=16, target_modules=["q_proj", "v_proj"], lora_dropout=0.005, bias="none", task_type="CAUSAL_LM")
-model = peft.get_peft_model(model, config)
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+model = peft.get_peft_model(model, config).to(device)
 # peft.set_peft_model_state_dict(model, torch.load("./output/checkpoint-600/adapter_model.bin"))
 #%%
 
