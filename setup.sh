@@ -7,3 +7,19 @@ conda init & conda config --set auto_activate_base false
 conda activate base
 conda install cudatoolkit=11.0 -y
 pip install torch sentencepiece datasets bitsandbytes peft accelerate scipy pipx
+
+pip install ipywidgets
+pip install torch
+pip install transformers
+pip install sentencepiece
+pip install datasets
+
+pip install accelerate
+pip install bitsandbytes
+pip install peft
+pip install scipy
+
+pip install gradio
+pip install pipx
+
+pipx run nvitop
