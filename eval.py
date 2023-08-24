@@ -3,6 +3,7 @@ import transformers as t
 import torch
 import peft
 import time
+import wandb
 #%%
 tokenizer = t.AutoTokenizer.from_pretrained("NousResearch/Llama-2-7b-hf")
 model = t.AutoModelForCausalLM.from_pretrained("NousResearch/Llama-2-7b-hf", load_in_8bit=True, torch_dtype=torch.float16)
