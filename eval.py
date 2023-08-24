@@ -4,6 +4,7 @@ import torch
 import peft
 import time
 import wandb
+from wandb.sdk import data_types
 #%%
 tokenizer = t.AutoTokenizer.from_pretrained("NousResearch/Llama-2-7b-hf")
 model = t.AutoModelForCausalLM.from_pretrained("NousResearch/Llama-2-7b-hf", load_in_8bit=True, torch_dtype=torch.float16)
@@ -26,12 +27,14 @@ wandb.init(
     project="Llama",
     name = title,
     config={
-        "TEMPLATE": TEMPLATE,
-        "INSTRUCTION": INSTRUCTION,
-        "prompt": prompt,
     })
 #%%
+table = wandb.Table(columns=["Title"], data=[["Generated Article"]])
+
 pipe = t.pipeline(task="text-generation", model=model, tokenizer=tokenizer, max_length=500)
-print("pipe(prompt)", pipe(prompt))
-wandb.log({"output": pipe(prompt)})
+output = pipe([prompt])
+print("pipe(prompt)", output)
+generated_article = output[0]["generated_text"]
+table.add_data(INSTRUCTION, generated_article)
+wandb.log({"Generated Article": table})
 wandb.finish()
