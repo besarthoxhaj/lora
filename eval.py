@@ -31,7 +31,7 @@ wandb.init(
 #%%
 table = wandb.Table(columns=["Title", "Generated Article"])
 
-pipe = t.pipeline(task="text-generation", model=model, tokenizer=tokenizer, max_length=500)
+pipe = t.pipeline(task="text-generation", model=model, tokenizer=tokenizer, max_length=1000)
 output = pipe([prompt])
 print("pipe(prompt)", output)
 generated_article = output[0][0]["generated_text"]
